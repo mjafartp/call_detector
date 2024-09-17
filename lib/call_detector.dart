@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 
 import 'package:flutter/services.dart';
@@ -8,7 +7,7 @@ enum CallDetectorEvent { incoming, outgoing }
 
 class CallDetector {
   static const MethodChannel _channel =
-  const MethodChannel('com.thedevbuddy.call_detector');
+      const MethodChannel('com.thedevbuddy.call_detector');
 
   /// Register the given callback to be called by the Caller Service
   /// even when the app is on background / closed, since each OS Handles
@@ -30,17 +29,16 @@ class CallDetector {
   ///   Caller.initialize(onEventCallback);
   /// }
   /// ```
-  /// {@end-tool}
   static Future<void> initialize(
-      Function(CallDetectorEvent, String) onEventCallbackDispatcher,
-      ) async {
+    Function(CallDetectorEvent, String) onEventCallbackDispatcher,
+  ) async {
     final hasPermissions = true;
 
     if (!hasPermissions) throw MissingAuthorizationFailure();
 
     final callback = PluginUtilities.getCallbackHandle(_callbackDispatcher);
     final onEventCallback =
-    PluginUtilities.getCallbackHandle(onEventCallbackDispatcher);
+        PluginUtilities.getCallbackHandle(onEventCallbackDispatcher);
 
     try {
       await _channel.invokeMethod('initialize', <dynamic>[
@@ -89,7 +87,7 @@ class UnableToInitializeFailure implements Exception {
 void _callbackDispatcher() {
   // 1. Initialize MethodChannel used to communicate with the platform portion of the plugin.
   const MethodChannel _backgroundChannel =
-  MethodChannel('com.thedevbuddy.call_detector_background');
+      MethodChannel('com.thedevbuddy.call_detector_background');
 
   // 2. Setup internal state needed for MethodChannels.
   WidgetsFlutterBinding.ensureInitialized();
@@ -97,9 +95,6 @@ void _callbackDispatcher() {
   // 3. Listen for background events from the platform portion of the plugin.
   _backgroundChannel.setMethodCallHandler((MethodCall call) async {
     final args = call.arguments as List<dynamic>;
-    print(
-      '[ Caller ] - Called with arguments ${args.join(', ')}',
-    );
 
     // 3.1. Retrieve callback instance for handle.
     final Function? userCallback = PluginUtilities.getCallbackFromHandle(
@@ -118,9 +113,7 @@ void _callbackDispatcher() {
         throw Exception('Unkown event name');
     }
 
-    print('[ Caller ] - Calling user callback: ${userCallback?.toString()} $args');
-
     // 3.3. Invoke callback.
-    userCallback?.call(callerEvent, args.elementAt(4));
+    userCallback?.call(callerEvent, args.elementAt(3));
   });
 }

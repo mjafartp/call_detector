@@ -7,18 +7,16 @@ import 'package:flutter_background_service_android/flutter_background_service_an
 
 /// Defines a callback that will handle all background incoming events
 Future<void> callerCallbackHandler(
-    CallDetectorEvent event,
-    String number,
-    ) async {
+  CallDetectorEvent event,
+  String number,
+) async {
   print("New event received from native $event");
   switch (event) {
     case CallDetectorEvent.incoming:
-      print(
-          '[ Caller ] Incoming call ended, number: $number, ');
+      print('[ Caller ] Incoming call ended, number: $number, ');
       break;
     case CallDetectorEvent.outgoing:
-      print(
-          '[ Caller ] Ougoing call ended, number: $number');
+      print('[ Caller ] Ougoing call ended, number: $number');
       break;
   }
 }
